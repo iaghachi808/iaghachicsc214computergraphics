@@ -1,0 +1,3 @@
+﻿  csc212.cpp
+C:\Users\Ike\Desktop\csc212\csc212.cpp(15,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+LINK : fatal error LNK1168: cannot open C:\Users\Ike\Desktop\csc212\x64\Debug\csc212.exe for writing
