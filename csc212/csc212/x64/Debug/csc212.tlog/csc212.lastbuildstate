@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.39.33519:TargetPlatformVersion=10.0.22621.0:
 Debug|x64|C:\Users\Ike\Desktop\csc212\|
+=======
+PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.39.33519:TargetPlatformVersion=10.0.22621.0:
+Debug|x64|C:\Users\Ike\Desktop\csc212\|
+>>>>>>> 20b7c7f14cdf97d21ea0c379a03aaeeeb550c610

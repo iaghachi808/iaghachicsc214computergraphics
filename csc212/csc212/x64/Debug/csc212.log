@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+﻿  csc212.cpp
+  csc212.vcxproj -> C:\Users\Ike\Desktop\csc212\x64\Debug\csc212.exe
+=======
 ﻿  csc212.cpp
 C:\Users\Ike\Desktop\csc212\csc212.cpp(15,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 LINK : fatal error LNK1168: cannot open C:\Users\Ike\Desktop\csc212\x64\Debug\csc212.exe for writing
+>>>>>>> 20b7c7f14cdf97d21ea0c379a03aaeeeb550c610

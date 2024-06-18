@@ -1,3 +1,163 @@
+<<<<<<< HEAD
+#include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
+
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
+
+bool init(SDL_Window** window, SDL_Renderer** renderer);
+SDL_Texture* loadTexture(const std::string& path, SDL_Renderer* renderer);
+void close(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* backgroundTexture, SDL_Texture* texture1, SDL_Texture* texture2, SDL_Texture* frameTexture);
+
+int main(int argc, char* args[]) {
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+    if (!init(&window, &renderer)) {
+        std::cerr << "Failed to initialize!\n";
+        return -1;
+    }
+
+    SDL_Texture* backgroundTexture = loadTexture("./assets/layer2.png", renderer);
+    SDL_Texture* texture1 = loadTexture("./assets/layer1.jpeg", renderer);
+    SDL_Texture* texture2 = loadTexture("./assets/layer0.jpeg", renderer);
+    SDL_Texture* frameTexture = loadTexture("./assets/layer3.png", renderer); // Load the frame texture
+
+    if (backgroundTexture == nullptr || texture1 == nullptr || texture2 == nullptr || frameTexture == nullptr) {
+        std::cerr << "Failed to load textures!\n";
+        close(window, renderer, backgroundTexture, texture1, texture2, frameTexture);
+        return -1;
+    }
+
+    bool quit = false;
+    SDL_Event e;
+
+    while (!quit) {
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
+
+        SDL_RenderClear(renderer);
+
+        // Render background texture
+        SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
+
+        // Set positions and sizes for the textures
+        int textureWidth = 200;
+        int textureHeight = 200;
+        int spaceBetween = 20;
+
+        SDL_Rect frameQuad1 = {
+            (WINDOW_WIDTH / 2) - textureWidth - (spaceBetween / 2),
+            (WINDOW_HEIGHT / 2) - (textureHeight / 2),
+            textureWidth,
+            textureHeight
+        };
+
+        SDL_Rect frameQuad2 = {
+            (WINDOW_WIDTH / 2) + (spaceBetween / 2),
+            (WINDOW_HEIGHT / 2) - (textureHeight / 2),
+            textureWidth,
+            textureHeight
+        };
+
+        SDL_Rect renderQuad1 = {
+            frameQuad1.x + 10, // Adjust these offsets according to your frame
+            frameQuad1.y + 10, // Adjust these offsets according to your frame
+            textureWidth - 20, // Adjust these sizes according to your frame
+            textureHeight - 20 // Adjust these sizes according to your frame
+        };
+
+        SDL_Rect renderQuad2 = {
+            frameQuad2.x + 10, // Adjust these offsets according to your frame
+            frameQuad2.y + 10, // Adjust these offsets according to your frame
+            textureWidth - 20, // Adjust these sizes according to your frame
+            textureHeight - 20 // Adjust these sizes according to your frame
+        };
+
+        // Render the frame textures
+        SDL_RenderCopy(renderer, frameTexture, nullptr, &frameQuad1);
+        SDL_RenderCopy(renderer, frameTexture, nullptr, &frameQuad2);
+
+        // Render the images on top of the frames
+        SDL_RenderCopy(renderer, texture1, nullptr, &renderQuad1);
+        SDL_RenderCopy(renderer, texture2, nullptr, &renderQuad2);
+
+        SDL_RenderPresent(renderer);
+    }
+
+    close(window, renderer, backgroundTexture, texture1, texture2, frameTexture);
+    return 0;
+}
+
+bool init(SDL_Window** window, SDL_Renderer** renderer) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    *window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    if (*window == nullptr) {
+        std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    *renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+    if (*renderer == nullptr) {
+        std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    SDL_SetRenderDrawColor(*renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+    int imgFlags = IMG_INIT_PNG;
+    if (!(IMG_Init(imgFlags) & imgFlags)) {
+        std::cerr << "SDL_image could not initialize! IMG_Error: " << IMG_GetError() << "\n";
+        return false;
+    }
+
+    return true;
+}
+
+SDL_Texture* loadTexture(const std::string& path, SDL_Renderer* renderer) {
+    SDL_Texture* newTexture = nullptr;
+    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+    if (loadedSurface == nullptr) {
+        std::cerr << "Unable to load image " << path << "! SDL_image Error: " << IMG_GetError() << "\n";
+        return nullptr;
+    }
+
+    newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+    if (newTexture == nullptr) {
+        std::cerr << "Unable to create texture from " << path << "! SDL Error: " << SDL_GetError() << "\n";
+    }
+
+    SDL_FreeSurface(loadedSurface);
+
+    return newTexture;
+}
+
+void close(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* backgroundTexture, SDL_Texture* texture1, SDL_Texture* texture2, SDL_Texture* frameTexture) {
+    SDL_DestroyTexture(backgroundTexture);
+    SDL_DestroyTexture(texture1);
+    SDL_DestroyTexture(texture2);
+    SDL_DestroyTexture(frameTexture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    backgroundTexture = nullptr;
+    texture1 = nullptr;
+    texture2 = nullptr;
+    frameTexture = nullptr;
+    renderer = nullptr;
+    window = nullptr;
+
+    IMG_Quit();
+    SDL_Quit();
+}
+=======
 #include "csc212.h"
 #include <SDL.h>
 #include <SDL_image.h>
@@ -149,3 +309,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+>>>>>>> 20b7c7f14cdf97d21ea0c379a03aaeeeb550c610
